@@ -9,10 +9,10 @@ const FileUploader = ({onFileSelectError, onFileSelectSuccess}) => {
     const handleFileInput = (e) => {
         //handle validations
         const file = e.target.files[0];
-        console.log(file);
         if(!file){
           return;
         }
+        //MIME Types checking
         if(file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || file.type === "text/csv" || file.type === "application/vnd.ms-excel")
             {
               onFileSelectSuccess(file)

@@ -4,6 +4,8 @@ import * as XLSX from 'xlsx';
 
 const App = () => {
   const [selectedfile, setSelectedfile] = useState(null);
+  const [rows, setRows] = useState(0);
+  const [columns, setColumns] = useState(0);
   const submitForm = (e) => {
     e.preventDefault();
     const reader = new FileReader();
@@ -14,9 +16,15 @@ const App = () => {
       const wsname = wb.SheetNames[0];
       const ws =  wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_csv(ws, {header: 1});
-      console.log(data);
+      const rows = XLSX.utils.sheet_to_row_object_array(ws, {header: 1});
+      console.table(rows);
+      setRows(rows.length)
+      console.log(data); //Object.keys
     };
     reader.readAsBinaryString(selectedfile);
+  };
+  const processSelectedFile = (file) => {
+    setSelectedfile(file)
   };
 
   return (
@@ -26,11 +34,13 @@ const App = () => {
       </div>
       <form>
         <FileUploader
-          onFileSelectSuccess={(file) => setSelectedfile(file)}
+          onFileSelectSuccess={processSelectedFile}
           onFileSelectError={(error) => alert(error.error)}
         />
         <button onClick={submitForm}>Submit</button>
       </form>
+      <div> <h4> Rows Count:{rows}</h4> </div>
+      <div> <h4> Columns Count:{columns}</h4> </div>
     </div>
   )
 }
