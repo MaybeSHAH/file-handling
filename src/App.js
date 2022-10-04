@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import FileUploader from './components/FileUploader';
 
-function App() {
+const App = () => {
+  const [selectedfile, setSelectedfile] = useState(null);
+  const submitForm = () => {
+    console.log("FILE IS::", selectedfile);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <h4>File :</h4><span>{ selectedfile && selectedfile.name}</span>
+      <form>
+        <FileUploader
+          onFileSelectSuccess={(file) => setSelectedfile(file)}
+          onFileSelectError={(error) => alert(error.error)}
+        />
+        <button onClick={submitForm}>Submit</button>
+      </form>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
